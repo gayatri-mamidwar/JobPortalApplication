@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(Long id) {
         return  userRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("User not found.."));
+                .orElseThrow(() -> new UserNotFoundException(id));
 
     }
 
@@ -59,6 +59,6 @@ public class UserServiceImpl implements UserService {
     public UserDTO deleteById(Long id) {
         return userRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("User not found.."));
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 }

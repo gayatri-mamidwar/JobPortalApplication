@@ -35,6 +35,3 @@ build/
 #this file won't get pushed to git
 credentials.properties
 data.sql
-
-#temp excluding
-/exception/

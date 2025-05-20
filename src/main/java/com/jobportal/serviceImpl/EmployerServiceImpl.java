@@ -43,7 +43,7 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerDTO getEmployerById(Long id) {
         return employerRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("Employer Not found.."));
+                .orElseThrow(() -> new EmployerNotFoundException(id));
     }
 
     @Override
@@ -58,6 +58,6 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerDTO deleteById(Long id) {
         return employerRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("Employer Not found.."));
+                .orElseThrow(() -> new EmployerNotFoundException(id));
     }
 }

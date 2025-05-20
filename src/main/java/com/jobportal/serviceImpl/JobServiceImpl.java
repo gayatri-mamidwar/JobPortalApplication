@@ -3,6 +3,7 @@ package com.jobportal.serviceImpl;
 import com.jobportal.dto.JobDTO;
 import com.jobportal.entity.Employer;
 import com.jobportal.entity.Job;
+import com.jobportal.exception.EmployerNotFoundException;
 import com.jobportal.exception.JobNotFoundException;
 import com.jobportal.repository.EmployerRepository;
 import com.jobportal.repository.JobRepository;
@@ -41,7 +42,7 @@ public class JobServiceImpl implements JobService {
         job.setType(dto.getType());
 
         Employer employer = employerRepository.findById(dto.getEmployerId())
-                .orElseThrow(() -> new RuntimeException("Employer not found"));
+                .orElseThrow(() -> new EmployerNotFoundException(dto.getEmployerId()));
 
         job.setEmployer(employer);
         return job;
@@ -57,7 +58,7 @@ public class JobServiceImpl implements JobService {
     public JobDTO getJobById(Long id) {
         return jobRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("Job Not found.."));
+                .orElseThrow(() -> new JobNotFoundException(id));
     }
 
     @Override
@@ -72,6 +73,6 @@ public class JobServiceImpl implements JobService {
     public JobDTO deleteById(Long id) {
         return jobRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("Job Not found.."));
+                .orElseThrow(() -> new JobNotFoundException(id));
     }
 }
