@@ -57,8 +57,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO deleteById(Long id) {
-        return userRepository.findById(id)
-                .map(this::mapToDTO)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
+
+        userRepository.deleteById(id);
+        return mapToDTO(user);
     }
 }

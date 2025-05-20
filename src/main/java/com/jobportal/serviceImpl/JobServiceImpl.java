@@ -3,8 +3,10 @@ package com.jobportal.serviceImpl;
 import com.jobportal.dto.JobDTO;
 import com.jobportal.entity.Employer;
 import com.jobportal.entity.Job;
+import com.jobportal.entity.User;
 import com.jobportal.exception.EmployerNotFoundException;
 import com.jobportal.exception.JobNotFoundException;
+import com.jobportal.exception.UserNotFoundException;
 import com.jobportal.repository.EmployerRepository;
 import com.jobportal.repository.JobRepository;
 import com.jobportal.service.JobService;
@@ -71,8 +73,10 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobDTO deleteById(Long id) {
-        return jobRepository.findById(id)
-                .map(this::mapToDTO)
-                .orElseThrow(() -> new JobNotFoundException(id));
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        jobRepository.deleteById(id);
+        return mapToDTO(job);
     }
 }

@@ -2,7 +2,9 @@ package com.jobportal.serviceImpl;
 
 import com.jobportal.dto.EmployerDTO;
 import com.jobportal.entity.Employer;
+import com.jobportal.entity.User;
 import com.jobportal.exception.EmployerNotFoundException;
+import com.jobportal.exception.UserNotFoundException;
 import com.jobportal.repository.EmployerRepository;
 import com.jobportal.service.EmployerService;
 import org.springframework.stereotype.Service;
@@ -56,8 +58,10 @@ public class EmployerServiceImpl implements EmployerService {
 
     @Override
     public EmployerDTO deleteById(Long id) {
-        return employerRepository.findById(id)
-                .map(this::mapToDTO)
-                .orElseThrow(() -> new EmployerNotFoundException(id));
+        Employer employer = employerRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        employerRepository.deleteById(id);
+        return mapToDTO(employer);
     }
 }
